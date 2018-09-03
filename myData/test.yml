@@ -52,13 +52,13 @@ smallProgram:
           note: normal
           Protocol: https
           Host: www.gicdev.com
-          Path: /gic-wx-app/get_member_center_info
+          Path: /gic-wx-app/get_member_center_info.json
           method: POST
           Cookies: 'null'
           params:
             GET: ''
             POST:
-              memberId: ff8080816588bf5f0165893e78390011
+              memberId: ff80808165930cfd0165939b5a69004b
               enterpriseId: ff8080815dacd3a2015dacd3ef5c0000
               appid: wx9d30a2aa1fc6d77a
               transId: wx9d30a2aa1fc6d77a2018-08-31 13:34:02
@@ -75,13 +75,13 @@ smallProgram:
           note: wrongProtocol
           Protocol: http
           Host: www.gicdev.com
-          Path: /gic-wx-app/get_member_center_info
+          Path: /gic-wx-app/get_member_center_info.json
           method: POST
           Cookies: 'null'
           params:
             GET: ''
             POST:
-              memberId: ff8080816588bf5f0165893e78390011
+              memberId: ff80808165930cfd0165939b5a69004b
               enterpriseId: ff8080815dacd3a2015dacd3ef5c0000
               appid: wx9d30a2aa1fc6d77a
               transId: wx9d30a2aa1fc6d77a2018-08-31 13:34:02

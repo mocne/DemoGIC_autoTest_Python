@@ -1,4 +1,5 @@
 #  -*- coding: utf-8 -*-
+import json
 import smtplib
 import time
 from email.mime.text import MIMEText
@@ -28,10 +29,13 @@ class InterfaceTest(unittest.TestCase):
         self.session.get('https://www.baidu.com')
         tmpTestData = self.testData['smallProgram']['login']['get_member_center_info']
         for tmp in tmpTestData:
-            if tmp['method'].equals('GET'):
+            if tmp['method'] == 'GET':
                 self.session.get(url=tmp['Protocol'] + '://' + tmp['Host'] + tmp['Path'] + '?' + tmp['params']['GET'])
-            elif tmp['method'].equals('POST'):
-                self.session.post(url=tmp['Protocol'] + '://' + tmp['Host'] + tmp['Path'], data=tmp['params']['POST'])
+            elif tmp['method'] == 'POST':
+                responseStr = self.session.post(url=tmp['Protocol'] + '://' + tmp['Host'] + tmp['Path'] + '', data=tmp['params']['POST'])
+                responseStatus = responseStr.status_code
+                # if responseStatus == '200':
+                #     check
         print('admin')
 
     def tearDown(self):
