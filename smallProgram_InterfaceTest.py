@@ -23,11 +23,16 @@ class InterfaceTest(unittest.TestCase):
 
     def test_interface_run(self):
         self.session.get('https://www.baidu.com')
-        bbb = self.testData
-        print(bbb)
 
     def test_get_member_center_info(self):
         self.session.get('https://www.baidu.com')
+        tmpTestData = self.testData['smallProgram']['login']['get_member_center_info']
+        for tmp in tmpTestData:
+            if tmp['method'].equals('GET'):
+                self.session.get(url=tmp['Protocol'] + '://' + tmp['Host'] + tmp['Path'] + '?' + tmp['params']['GET'])
+            elif tmp['method'].equals('POST'):
+                self.session.post(url=tmp['Protocol'] + '://' + tmp['Host'] + tmp['Path'], data=tmp['params']['POST'])
+        print('admin')
 
     def tearDown(self):
         self.session.close()
@@ -51,16 +56,16 @@ def send_email(report_file):
     mail_body = file.read()
     file.close()
 
-    msg = MIMEMultipart(mail_body, _subtype="html", _charset="utf-8")
+    msg = MIMEText(mail_body, _subtype="html", _charset="utf-8")
     msg["Subject"] = u"自动化测试报告"
     msg["From"] = "AutoTester<811703707@qq.com>"
     msg["To"] = "ReportReceiver<917597939@qq.com>"
 
-    att = MIMEText(open(report_file, 'rb').read(), 'base64', 'utf-8')
-    att["Content-Type"] = 'application/octet-stream'
-    # 这里的filename可以任意写，写什么名字，邮件中显示什么名字
-    att["Content-Disposition"] = 'attachment; filename="接口测试报告.html"'
-    msg.attach(att)
+    # att = MIMEText(open(report_file, 'rb').read(), 'base64', 'utf-8')
+    # att["Content-Type"] = 'application/octet-stream'
+    # # 这里的filename可以任意写，写什么名字，邮件中显示什么名字
+    # att["Content-Disposition"] = 'attachment; filename="接口测试报告.html"'
+    # msg.attach(att)
 
     smtp = smtplib.SMTP_SSL(smtpserver)
     smtp.login(username, password)

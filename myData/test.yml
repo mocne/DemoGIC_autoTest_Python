@@ -8,7 +8,19 @@ smallProgram:
         path: /gic-wx-app/get_member_center_info.json
         method: POST
         cookies: 'null'
-        params: 'memberId=ff80808165930cfd0165939b5a69004b&enterpriseId=ff8080815dacd3a2015dacd3ef5c0000&appid=wx9d30a2aa1fc6d77a&transId=wx9d30a2aa1fc6d77a2018-09-02 01:06:21&sign=87f25e43da37e2a8f36286695c58459f&timestamp=2018-09-02 01:06:21&launchOptions={"path":"pages/member-center/member-center/member-center","query":{},"scene":1001,"referrerInfo":{}}&cliqueId=-1&cliqueMemberId=-1&useClique=0&unionid=ooCqW1APcnWV7KczNi-IjsAN6KIM'
+        params:
+          GET: ''
+          POST:
+            memberId: ff80808165930cfd0165939b5a69004b
+            enterpriseId: ff8080815dacd3a2015dacd3ef5c0000
+            appid: wx9d30a2aa1fc6d77a
+            transId: 'wx9d30a2aa1fc6d77a2018-09-02 01:06:21'
+            sign: 87f25e43da37e2a8f36286695c58459f
+            timestamp: '2018-09-02 01:06:21'
+            cliqueId: '-1'
+            cliqueMemberId: '-1'
+            useClique: '0'
+            unionid: ooCqW1APcnWV7KczNi-IjsAN6KIM
         checkInfo:
           checkSql:
           checkResult:
@@ -19,8 +31,68 @@ smallProgram:
         path: /gic-wx-app/create_member.json
         method: POST
         cookies: 'null'
-        params: 'memberId=ff80808165930cfd0165939b5a69004b&enterpriseId=ff8080815dacd3a2015dacd3ef5c0000&appid=wx9d30a2aa1fc6d77a&transId=wx9d30a2aa1fc6d77a2018-09-02 01:06:21&sign=87f25e43da37e2a8f36286695c58459f&timestamp=2018-09-02 01:06:21&launchOptions={"path":"pages/member-center/member-center/member-center","query":{},"scene":1001,"referrerInfo":{}}&cliqueId=-1&cliqueMemberId=-1&useClique=0&unionid=ooCqW1APcnWV7KczNi-IjsAN6KIM'
+        params:
+          GET: ''
+          POST:
+            memberId: ff80808165930cfd0165939b5a69004b
+            enterpriseId: ff8080815dacd3a2015dacd3ef5c0000
+            appid: wx9d30a2aa1fc6d77a
+            transId: 'wx9d30a2aa1fc6d77a2018-09-02 01:06:21'
+            sign: 87f25e43da37e2a8f36286695c58459f
+            timestamp: '2018-09-02 01:06:21'
+            cliqueId: '-1'
+            cliqueMemberId: '-1'
+            useClique: '0'
+            unionid: ooCqW1APcnWV7KczNi-IjsAN6KIM
         checkInfo:
           checkSql:
           checkResult:
+    get_member_center_info:
+        -
+          note: normal
+          Protocol: https
+          Host: www.gicdev.com
+          Path: /gic-wx-app/get_member_center_info
+          method: POST
+          Cookies: 'null'
+          params:
+            GET: ''
+            POST:
+              memberId: ff8080816588bf5f0165893e78390011
+              enterpriseId: ff8080815dacd3a2015dacd3ef5c0000
+              appid: wx9d30a2aa1fc6d77a
+              transId: wx9d30a2aa1fc6d77a2018-08-31 13:34:02
+              sign: 7ffc071536285906b562706a2dff1930
+              timestamp: '2018-08-31 20:51:12'
+              cliqueId: 'null'
+              cliqueMemberId: 'null'
+              useClique: 0
+              unionid: ooCqW1APcnWV7KczNi-IjsAN6KIM
+          checkInfo:
+            sqlStr: ''
+            sqlResult: ''
+        -
+          note: wrongProtocol
+          Protocol: http
+          Host: www.gicdev.com
+          Path: /gic-wx-app/get_member_center_info
+          method: POST
+          Cookies: 'null'
+          params:
+            GET: ''
+            POST:
+              memberId: ff8080816588bf5f0165893e78390011
+              enterpriseId: ff8080815dacd3a2015dacd3ef5c0000
+              appid: wx9d30a2aa1fc6d77a
+              transId: wx9d30a2aa1fc6d77a2018-08-31 13:34:02
+              sign: 7ffc071536285906b562706a2dff1930
+              timestamp: '2018-08-31 20:51:12'
+              cliqueId: 'null'
+              cliqueMemberId: 'null'
+              useClique: 0
+              unionid: ooCqW1APcnWV7KczNi-IjsAN6KIM
+          checkInfo:
+            sqlStr: ''
+            sqlResult: ''
+
 
