@@ -1,5 +1,4 @@
 #  -*- coding: utf-8 -*-
-import json
 import smtplib
 import time
 from email.mime.text import MIMEText
@@ -9,7 +8,7 @@ import unittest
 
 import yaml
 
-import HTMLTestRunner
+from COMMON import HTMLTestRunner
 
 
 class InterfaceTest(unittest.TestCase):
@@ -83,7 +82,7 @@ if __name__ == '__main__':
     testunit = unittest.TestSuite()
     testunit.addTest(InterfaceTest("test_interface_run"))
     testunit.addTest(InterfaceTest('test_get_member_center_info'))
-    HtmlFile = './result/' + now + "-InterfaceTest-HTMLtemplate.html"
+    HtmlFile = './Reports/' + now + "-InterfaceTest-HTMLtemplate.html"
     fp = open(HtmlFile, "wb")
     runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title=u"接口测试报告", description=u"用例测试情况")
     runner.run(testunit)
