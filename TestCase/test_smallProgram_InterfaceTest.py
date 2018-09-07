@@ -15,7 +15,7 @@ class InterfaceTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        tmpData = open("./myData/test.yml", "rb")
+        tmpData = open("./MyData/test.yml", "rb")
         cls.testData = yaml.load(tmpData.read())
 
     def setUp(self):
