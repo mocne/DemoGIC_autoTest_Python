@@ -1,12 +1,16 @@
 #  -*- coding: utf-8 -*-
+import json
 import smtplib
 import time
 from email.mime.text import MIMEText
 
+import pymysql
 import requests
 import unittest
-
 import yaml
+import sys
+
+sys.path.append('E:\Code\DemoGIC_autoTest_Python')
 
 from COMMON import HTMLTestRunner
 
@@ -15,10 +19,28 @@ class InterfaceTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        tmpData = open("./MyData/test.yml", "rb")
-        cls.testData = yaml.load(tmpData.read())
+        # tmpData = open("./MyData/test.yml", "rb")
+        # cls.testData = yaml.load(tmpData.read())
+
+        try:
+            cls.db = pymysql.connect(host='212.64.10.76', port=3306, user='root', passwd='root', db='mocne_test',
+                                     charset="utf8")
+        except Exception as e:
+            print(e.__context__)
 
     def setUp(self):
+        if self._testMethodName == 'test_get_member_center_info':
+            cursor = self.db.cursor()
+            sql_select = "SELECT interface, note, protocol, host, port, path, method, get_params, post_params, check_sql, check_data FROM `mocne_test`.`interface_case` WHERE status = 1;"
+            try:
+                # 执行sql语句
+                cursor.execute(sql_select)
+                # 获取所有记录列表
+                self.aimTestData = list(cursor.fetchall())
+            except Exception as e:
+                print(e)
+                print("Error: unable to fecth data")
+            cursor.close()
         self.session = requests.session()
 
     def test_interface_run(self):
@@ -26,16 +48,17 @@ class InterfaceTest(unittest.TestCase):
 
     def test_get_member_center_info(self):
         self.session.get('https://www.baidu.com')
-        tmpTestData = self.testData['smallProgram']['login']['get_member_center_info']
+        tmpTestData = self.aimTestData
         for tmp in tmpTestData:
-            if tmp['method'] == 'GET':
-                self.session.get(url=tmp['Protocol'] + '://' + tmp['Host'] + tmp['Path'] + '?' + tmp['params']['GET'])
-            elif tmp['method'] == 'POST':
-                responseStr = self.session.post(url=tmp['Protocol'] + '://' + tmp['Host'] + tmp['Path'] + '', data=tmp['params']['POST'])
+            if tmp[6] == 'GET':
+                self.session.get(url=tmp[2] + '://' + tmp[3] + tmp[5] + '?' + tmp[7])
+            elif tmp[6] == 'POST':
+                responseStr = self.session.post(url=tmp[2] + '://' + tmp[3] + tmp[5],
+                                                data=tmp[8])
                 responseStatus = responseStr.status_code
-                # if responseStatus == '200':
-                #     check
-        print('admin')
+                if responseStatus == 200:
+                    aaa = json.dumps(responseStr.text)
+                    print('pass')
 
     def tearDown(self):
         self.session.close()
@@ -83,7 +106,7 @@ if __name__ == '__main__':
     testunit.addTest(InterfaceTest("test_interface_run"))
     testunit.addTest(InterfaceTest('test_get_member_center_info'))
     HtmlFile = './Reports/' + now + "-InterfaceTest-HTMLtemplate.html"
-    fp = open(HtmlFile, "wb")
+    fp = open(HtmlFile, "ab+")
     runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title=u"接口测试报告", description=u"用例测试情况")
     runner.run(testunit)
     fp.close()
