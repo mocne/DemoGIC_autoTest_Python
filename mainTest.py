@@ -12,11 +12,14 @@ def all_case():
     discover = unittest.defaultTestLoader.discover(case_path, pattern="test_*.py", top_level_dir=None)
     # suite = unittest.TestSuite()
     # suite.addTest(discover)
-    #
     # print(discover)
     return discover
 
 
 if __name__ == "__main__":
+    try:
+        exec('pip install -r requirements.txt')
+    except Exception as e:
+        print(e)
     runner = unittest.TextTestRunner()
     runner.run(all_case())

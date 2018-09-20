@@ -1,0 +1,7 @@
+Django
+MySQL-Connector-Python
+MySQL-python
+PIL
+South==
+django-grappelli
+django-pagination
