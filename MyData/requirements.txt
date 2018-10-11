@@ -5,3 +5,7 @@ PIL
 South==
 django-grappelli
 django-pagination
+pymysql
+requests
+unittest
+yaml
