@@ -1,25 +1,23 @@
 #  -*- coding: utf-8 -*-
 import json
+import os
 import smtplib
 import time
 from email.mime.text import MIMEText
-
-import pymysql
 import requests
 import unittest
-import yaml
 import sys
 
 sys.path.append('E:\Code\DemoGIC_autoTest_Python')
 
 from COMMON import HTMLTestRunner
 
-
 class open_Card_Func(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-       cls.session = requests.session()
+        cls.session = requests.session()
+        unittest.TextTestRunner().run(unittest.defaultTestLoader.discover(os.getcwd(), pattern="delMember.py", top_level_dir=None))
 
     def setUp(self):
         pass
@@ -31,30 +29,44 @@ class open_Card_Func(unittest.TestCase):
 
     @unittest.skipUnless(True, 'can not link to nginx')
     def test_b_get_ext_file(self):
-        extResult = self.session.post(url='http://gicdev.demogic.com/gic-operations/loadMiniProgramSetting', data={'eid': 'ff8080815dacd3a2015dacd3ef5c0000'})
-        extJson = json.dumps(extResult.text)
-        extJsonRlt = extJson['msg']
-        if extJsonRlt == '操作成功':
-            extContent = extJson['data']['extJson']
-            extJsonFile = json.dumps(extContent)
-            extVersion = extJsonFile['ext']['build']
-            tabBarList = extJsonFile['ext']['tabBar']['list']
-            print(extVersion+tabBarList)
+        login_data = {
+            'loginName': '123456',
+            'password': 'ywtest'
+        }
+        self.login_result = self.session.post(url='http://gicdev.demogic.com/gic-operations/login_process',
+                                              data=login_data).status_code
+        if self.login_result == 200:
+            extResult = self.session.post(url='http://gicdev.demogic.com/gic-operations/loadMiniProgramSetting', data={'eid': 'ff8080815dacd3a2015dacd3ef5c0000'})
+            extJson = json.loads(extResult.text)
+            extJsonRlt = extJson['msg']
+            if extJsonRlt == '操作成功':
+                extContent = extJson['data']['extJson']
+                extJsonFile = json.loads(extContent)
+                global extVersion
+                extVersion = extJsonFile['ext']['build']
+                tabBarList = extJsonFile['ext']['tabBar']['list']
+                global tabBarLists
+                tabBarLists = []
+                for tabBar in tabBarList:
+                    tabBarLists.append(tabBar['text'])
+                print('')
 
     @unittest.skipUnless(True, 'can not link to nginx')
     def test_c_get_tabBar_menu(self):
         tabBar_data = {
             'appid': 'wx9d30a2aa1fc6d77a',
-            'version': '39',
+            'version': extVersion,
             'transId': 'wx9d30a2aa1fc6d77a2018 - 10 - 11 19: 43:36',
             'sign': '4da94030fe06b213891121cbb069f304',
-            'timestamp': '2018 - 10 - 11 19: 43:36',
-            'cliqueId':-1,
-            'cliqueMemberId': -1,
-            'useClique': 0
+            'timestamp': '2018 - 10 - 11 19: 43:36'
         }
         tabBarResult = self.session.post(url='https://www.gicdev.com/gic-wx-app/get-custom-guide-data.json', data=tabBar_data)
-        print(tabBarResult.status_code)
+        tabBarInfo = json.loads(tabBarResult.text)
+        assert tabBarResult.status_code == 200
+        tabBars = tabBarInfo['response']['pages']
+        for i in range(0,len(tabBars)):
+            assert tabBars[i]['text'] == tabBarLists[i]
+        print('')
 
     def tearDown(self):
         pass
